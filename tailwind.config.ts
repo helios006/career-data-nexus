@@ -61,6 +61,46 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// Custom color palette for Job Data Nexus
+				jobblue: {
+					DEFAULT: '#2563EB',
+					50: '#EBF2FF',
+					100: '#D6E4FF',
+					200: '#ADC9FF',
+					300: '#85ADFF',
+					400: '#5C92FF',
+					500: '#3377FF',
+					600: '#0A5CFF',
+					700: '#004AE6',
+					800: '#0039B3',
+					900: '#002980'
+				},
+				jobgray: {
+					DEFAULT: '#64748B',
+					50: '#F9FAFB',
+					100: '#F1F5F9',
+					200: '#E2E8F0',
+					300: '#CBD5E1',
+					400: '#94A3B8',
+					500: '#64748B',
+					600: '#475569',
+					700: '#334155',
+					800: '#1E293B',
+					900: '#0F172A'
+				},
+				jobgreen: {
+					DEFAULT: '#10B981',
+					50: '#ECFDF5',
+					100: '#D1FAE5',
+					200: '#A7F3D0',
+					300: '#6EE7B7',
+					400: '#34D399',
+					500: '#10B981',
+					600: '#059669',
+					700: '#047857',
+					800: '#065F46',
+					900: '#064E3B'
 				}
 			},
 			borderRadius: {
