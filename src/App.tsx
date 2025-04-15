@@ -15,27 +15,39 @@ import AdminJobEdit from "./pages/admin/AdminJobEdit";
 import Login from "./pages/auth/Login";
 
 const queryClient = new QueryClient();
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
-);
+
+// Safely access environment variables with fallbacks
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+
+// Only create the client if both URL and key are available
+const supabase = supabaseUrl && supabaseAnonKey ? 
+  createClient(supabaseUrl, supabaseAnonKey) : 
+  null;
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
     const checkAuth = async () => {
+      if (!supabase) {
+        setIsAuthenticated(false);
+        return;
+      }
+      
       const { data: { session } } = await supabase.auth.getSession();
       setIsAuthenticated(!!session);
     };
     
     checkAuth();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setIsAuthenticated(!!session);
-    });
-
-    return () => subscription.unsubscribe();
+    if (supabase) {
+      const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+        setIsAuthenticated(!!session);
+      });
+  
+      return () => subscription.unsubscribe();
+    }
   }, []);
 
   if (isAuthenticated === null) {
