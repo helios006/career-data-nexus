@@ -80,7 +80,7 @@ const JobFilters = ({ onFilterChange, isMobile = false }: JobFiltersProps) => {
               <SelectValue placeholder="Select job type" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All job types</SelectItem>
+              <SelectItem value="all-job-types">All job types</SelectItem>
               {JOB_TYPES.map((type) => (
                 <SelectItem key={type} value={type}>
                   {type}

@@ -65,7 +65,7 @@ const Index = () => {
       );
     }
 
-    if (filters.jobType) {
+    if (filters.jobType && filters.jobType !== "all-job-types") {
       results = results.filter((job) => job.jobType === filters.jobType);
     }
 
