@@ -22,7 +22,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const { error } = isSignUp 
+      const { data, error } = isSignUp 
         ? await supabase.auth.signUp({ email, password })
         : await supabase.auth.signInWithPassword({ email, password });
 
@@ -33,12 +33,26 @@ const Login = () => {
           variant: "destructive",
         });
       } else {
-        toast({
-          title: "Success",
-          description: isSignUp ? "Registration successful! Please check your email." : "Logged in successfully",
-        });
-        if (!isSignUp) {
+        // Check if user is an admin before redirecting
+        const { data: { user } } = await supabase.auth.getUser();
+        const isAdmin = user?.user_metadata?.role === 'admin';
+
+        if (isAdmin) {
+          toast({
+            title: "Success",
+            description: isSignUp 
+              ? "Registration successful! Please check your email." 
+              : "Logged in successfully",
+          });
           navigate("/admin");
+        } else {
+          toast({
+            title: "Access Denied",
+            description: "You do not have admin access",
+            variant: "destructive",
+          });
+          // Sign out non-admin users
+          await supabase.auth.signOut();
         }
       }
     } catch (error) {
